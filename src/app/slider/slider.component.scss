@@ -1,0 +1,103 @@
+.slider-container {
+    width: 100%;
+    height: 100%;
+    padding: 4.5vmin 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column nowrap;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-items: space-between;
+}
+
+.slides-list {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 0 1 100%;
+    overflow: hidden;
+    margin:0;
+    padding: 0;
+}
+
+.slide-container {
+    display: inline-flex;
+    height: 100%;
+    padding: 0 4.5vmin;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+	  background-position: center center;
+    background-size: cover;
+    background-clip: content-box;
+    &.no-infinite {
+      transition: all 300ms ease-in;
+    }
+}
+
+.controls {
+    flex: 0 1 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.dots-container {
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    .isInternetExplorer :host &,
+    .isMicrosoftEdge :host & {
+        margin: 0 15vw;
+    }
+}
+
+.dot-wrapper {
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.dot {
+    background-color: blue;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    transition: all 300ms linear;
+
+    &.active {
+        background-color: red;
+
+    }
+    &:hover {
+        background-color: red;
+    }
+}
+
+.svg-container {
+    cursor: pointer;
+    .md-up :host & {
+        &:hover svg rect {
+        fill: red;
+    }
+}
+}
+
+svg {
+    width: 20px;
+    height: 35px;
+
+    rect {
+        transition: all 300ms linear;
+        fill: red;
+    }
+}
