@@ -1,6 +1,6 @@
-<section #slider class="slider-container" t>
+<section #slider class="slider-container">
   <ul class="slides-list" [style.backgroundImage]="!backgroundImage ? '' : 'url('+backgroundImage+')'"  [throttleTime]="500" (throttleEvent)="onSwipe($event)" ngxThrottleEvent>
-    <li #slideItem class="slide-container" *ngFor="let slide of slides" [innerHTML]="!slide.innerHTML ? '' : slide.innerHTML"
+    <li #slideItem class="slide-container" *ngFor="let slide of slidesModified" [innerHTML]="!slide.innerHTML ? '' : slide.innerHTML"
       [style.backgroundImage]="!slide.backgroundImage ? '' : 'url('+slide.backgroundImage+')'" [ngClass]="{'no-infinite': !infiniteSlider}"
      >
     </li>
