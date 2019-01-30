@@ -52,30 +52,30 @@ export class SliderComponent implements OnInit, AfterViewInit {
       backgroundImage: 'https://picsum.photos/200/300/?image=23',
       innerHTML: '<div>Ziemniak2</div>'
     },
-    // {
-    //   backgroundImage: 'https://picsum.photos/200/300/?image=41',
-    //   innerHTML: '<div>Ziemniak3</div>'
-    // },
-    // {
-    //   backgroundImage: 'https://picsum.photos/200/300/?image=1',
-    //   innerHTML: '<div>Ziemniak4</div>'
-    // },
-    // {
-    //   backgroundImage: 'https://picsum.photos/200/300/?image=78',
-    //   innerHTML: '<div>Ziemniak5</div>'
-    // },
-    // {
-    //   backgroundImage: 'https://picsum.photos/200/300/?image=66',
-    //   innerHTML: '<div>Ziemniak6</div>'
-    // },
-    // {
-    //   backgroundImage: 'https://picsum.photos/200/300/?image=23',
-    //   innerHTML: '<div>Ziemniak2</div>'
-    // },
-    // {
-    //   backgroundImage: 'https://picsum.photos/200/300/?image=23',
-    //   innerHTML: '<div>Ziemniak2</div>'
-    // }
+    {
+      backgroundImage: 'https://picsum.photos/200/300/?image=41',
+      innerHTML: '<div>Ziemniak3</div>'
+    },
+    {
+      backgroundImage: 'https://picsum.photos/200/300/?image=1',
+      innerHTML: '<div>Ziemniak4</div>'
+    },
+    {
+      backgroundImage: 'https://picsum.photos/200/300/?image=78',
+      innerHTML: '<div>Ziemniak5</div>'
+    },
+    {
+      backgroundImage: 'https://picsum.photos/200/300/?image=66',
+      innerHTML: '<div>Ziemniak6</div>'
+    },
+    {
+      backgroundImage: 'https://picsum.photos/200/300/?image=23',
+      innerHTML: '<div>Ziemniak2</div>'
+    },
+    {
+      backgroundImage: 'https://picsum.photos/200/300/?image=23',
+      innerHTML: '<div>Ziemniak2</div>'
+    }
   ];
   this.breakPoints = [
     {
@@ -138,8 +138,8 @@ export class SliderComponent implements OnInit, AfterViewInit {
           this.slide(columns - breakPoint.columns);
         }
         this.slidesModified = this.checkSlidesAmout(breakPoint.columns, this.slides);
-        // console.log(columns && columns < this.slidesModified.length && this.slidesModified.length !== this.slides.length);
-        if (columns && (this.slidesModified.length !== this.slides.length || columns < this.slidesModified.length)) {
+        // tslint:disable-next-line:max-line-length
+        if (columns && (this.slidesModified.length !== this.slides.length || columns < this.slidesModified.length) && this.infiniteSlider) {
           this.translateItems(0);
         }
         return breakPoint.columns;
@@ -150,18 +150,9 @@ export class SliderComponent implements OnInit, AfterViewInit {
   }
 
   private reRenderColumns(columns: number, slides: any[]) {
-    // if (columns >= slides.length) {
-    //   for (const slide of slides) {
-    //     this.renderer.setStyle(slide.nativeElement, 'flex', `0 1 calc(100% / ${columns})`);
-    //   }
-    // }
-    // else
-    // {
       for (const slide of slides) {
         this.renderer.setStyle(slide.nativeElement, 'flex', `1 0 calc(100% / ${columns})`);
       }
-    // }
-
   }
 
   // onKeyPress(event: KeyboardEvent): void {
@@ -176,14 +167,15 @@ export class SliderComponent implements OnInit, AfterViewInit {
 
   private slide(change: number): void {
       this.currentSlide += change;
-      if (this.infiniteSlider && this.columns >= this.slidesModified.length) {
+      if (this.infiniteSlider && this.columns < this.slidesModified.length) {
       this.translateItems(change);
-    } else {
+    } else if (!this.infiniteSlider) {
       this.slideFinite( this.currentSlide, this.singleItemSlide, this.columns );
     }
   }
 
   private translateItems(change: number) {
+    console.log('translate');
     this.slidesList.toArray().forEach(item => {
           this.renderer.setStyle(item.nativeElement, 'transition', 'transform 300ms ease-in-out');
           this.renderer.setStyle(item.nativeElement, 'transform', `translateX(${-change}00%)`);
@@ -194,13 +186,14 @@ export class SliderComponent implements OnInit, AfterViewInit {
   }
 
   private setOrder(change: number, columns: number) {
+    console.log('set order');
     const slidesList = this.slidesList.toArray();
     if (change === 0) {
       slidesList.forEach((item, idx) => {
         const itemStyle = item.nativeElement.style;
             const newOrder = idx < slidesList.length - 1 ? idx : -1 ;
             this.renderer.setStyle(item.nativeElement, 'order', newOrder);
-            const itemMargin = itemStyle.order < 0 ? `${-100 / columns}%` : `0`;
+            const itemMargin = itemStyle.order < 0 && columns <    this.slidesModified.length ? `${-100 / columns}%` : `0`;
             this.renderer.setStyle(item.nativeElement, 'margin-left', itemMargin);
             this.renderer.setStyle(item.nativeElement, 'transition', 'none');
             this.renderer.setStyle(item.nativeElement, 'transform', `translateX(0%)`);
